@@ -1,8 +1,7 @@
 package pl.eightbit;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,9 +9,15 @@ import javax.persistence.Id;
 import javax.persistence.Version;
 
 @Data
+@Setter(AccessLevel.NONE)
+@Builder
 @Entity
 @ToString(exclude = "password")
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PACKAGE)
 public class Member {
+
+//    public static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
 
     @Id
     @GeneratedValue
@@ -28,8 +33,7 @@ public class Member {
     @JsonIgnore
     private Long version;
 
-    protected Member() {
-    }
-
-
+//    public void setPassword(String password) {
+//        this.password = PASSWORD_ENCODER.encode(password);
+//    }
 }
