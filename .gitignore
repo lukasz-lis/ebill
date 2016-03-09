@@ -129,3 +129,7 @@ mvnw
 *.cmd
 src/main/resources/static/node/*
 src/main/resources/static/node_modules/*
+
+src/main/resources/static/built/bundle.js
+
+src/main/resources/static/built/bundle.js.map

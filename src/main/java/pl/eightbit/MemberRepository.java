@@ -1,9 +1,7 @@
 package pl.eightbit;
 
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Component;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 
-@Component
-public interface MemberRepository extends CrudRepository<Member, Long> {
+public interface MemberRepository extends PagingAndSortingRepository<Member, Long> {
 }
