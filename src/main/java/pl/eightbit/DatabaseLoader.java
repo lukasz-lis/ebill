@@ -24,7 +24,10 @@ public class DatabaseLoader implements CommandLineRunner {
                 .username("lukasz.lis") //
                 .firstName("lukasz") //
                 .lastName("lis") //
+                .roles(new String[]{"ROLE_MANAGER"})
                 .build();
+
+        member.setPassword("haslo");
 
         memberRepository.save(member);
     }

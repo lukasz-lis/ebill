@@ -2,38 +2,56 @@ package pl.eightbit;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import pl.eightbit.validators.ConfirmPassword;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Version;
+import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Data
-@Setter(AccessLevel.NONE)
+@Setter(AccessLevel.PRIVATE)
 @Builder
 @Entity
 @ToString(exclude = "password")
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@NoArgsConstructor(access = AccessLevel.PACKAGE)
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Member {
 
-//    public static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
+    public static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
 
     @Id
     @GeneratedValue
-    private Long id;
+    private long id;
+
+    @Column(unique = true, nullable = false)
     private String username;
+
+    @Column(nullable = false)
     private String email;
+
     @JsonIgnore
+    @Column(nullable = false)
     private String password;
+
     private String[] roles;
+
     private String firstName;
+
     private String lastName;
+
     @Version
     @JsonIgnore
     private Long version;
 
-//    public void setPassword(String password) {
-//        this.password = PASSWORD_ENCODER.encode(password);
-//    }
+    public void setPassword(String password) {
+        this.password = PASSWORD_ENCODER.encode(password);
+    }
+
+    public void setRoles(String roles) {
+        this.roles = new String[]{roles};
+    }
+
 }

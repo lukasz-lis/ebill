@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorator="layout-account" xmlns:layout="http://www.w3.org/1999/xhtml"
+      xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Title</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="row">
+        <div class="col-xs-6 col-md-offset-3">
+            <div class="panel panel-default">
+                <div class="panel-heading" th:text="#{account.singin.title}"></div>
+                <div class="panel-body">
+                    <form th:action="@{/logowanie}" method="post">
+                        <div class="form-group">
+                            <label for="username" th:text="#{account.singin.username}"></label>
+                            <input type="text" class="form-control" id="username" name="username"
+                                   th:placeholder="#{account.singin.username}"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="password" th:text="#{account.singin.password}"></label>
+                            <input type="password" class="form-control" id="password" name="password"
+                                   th:placeholder="#{account.singin.password}"/>
+                        </div>
+
+                        <button type="submit" class="btn btn-default" th:text="#{account.singin.button}"></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

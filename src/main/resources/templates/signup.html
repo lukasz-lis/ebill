@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorator="layout-account" xmlns:layout="http://www.w3.org/1999/xhtml"
+      xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Title</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="row">
+        <div class="col-xs-6 col-md-offset-3">
+            <div class="panel panel-default">
+                <div class="panel-heading" th:text="#{account.new.panel.title}"></div>
+                <div class="panel-body">
+                    <form th:action="@{/rejestracja}" method="post" th:object="${memberDTO}">
+                        <div class="form-group" th:classappend="${#fields.hasErrors('username')}? 'has-error'">
+                            <label for="username" th:text="#{account.new.username}"></label>
+                            <input type="text" class="form-control" id="username" th:field="*{username}"
+                                   th:placeholder="#{account.new.username}"/>
+                            <span class="help-block" th:if="${#fields.hasErrors('username')}"
+                                  th:errors="*{username}"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="first-name" th:text="#{account.new.first.name}"></label>
+                            <input type="text" class="form-control" id="first-name" th:field="*{firstName}"
+                                   th:placeholder="#{account.new.first.name}"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="last-name" th:text="#{account.new.last.name}"></label>
+                            <input type="text" class="form-control" id="last-name" th:field="*{lastName}"
+                                   th:placeholder="#{account.new.last.name}"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="email" th:text="#{account.new.email.address}"></label>
+                            <input type="email" class="form-control" id="email" th:field="*{email}"
+                                   th:placeholder="#{account.new.email.address}"/>
+                        </div>
+                        <div class="form-group" th:classappend="${#fields.hasErrors('global')}? 'has-error'">
+                            <label for="password" th:text="#{account.new.password}"></label>
+                            <input type="password" class="form-control" id="password" th:field="*{password}"
+                                   th:placeholder="#{account.new.password}"/>
+                            <span class="help-block" th:if="${#fields.hasErrors('global')}"
+                                  th:errors="*{global}"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="password-repeat" th:text="#{account.new.repeat.password}"></label>
+                            <input type="password" class="form-control" id="password-repeat"
+                                   th:field="*{passwordRepeat}" th:placeholder="#{account.new.repeat.password}"/>
+                        </div>
+                        <button type="submit" class="btn btn-default" th:text="#{account.new.button.create}"></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
