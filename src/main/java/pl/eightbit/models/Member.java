@@ -1,4 +1,4 @@
-package pl.eightbit;
+package pl.eightbit.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
@@ -12,7 +12,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Data
-@Setter(AccessLevel.PRIVATE)
 @Builder
 @Entity
 @ToString(exclude = "password")
@@ -29,7 +28,7 @@ public class Member {
     @Column(unique = true, nullable = false)
     private String username;
 
-    @Column(nullable = false)
+    @Column(unique = true, nullable = false)
     private String email;
 
     @JsonIgnore
@@ -47,7 +46,9 @@ public class Member {
     private Long version;
 
     public void setPassword(String password) {
-        this.password = PASSWORD_ENCODER.encode(password);
+        if(password != null && !password.isEmpty()) {
+            this.password = PASSWORD_ENCODER.encode(password);
+        }
     }
 
     public void setRoles(String roles) {

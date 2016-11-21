@@ -1,34 +1,11 @@
 package pl.eightbit.dto;
 
-import lombok.Data;
-import org.hibernate.validator.constraints.Email;
-import pl.eightbit.validators.ConfirmPassword;
+public interface MemberDTO {
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+    long getId();
 
-@Data
-@ConfirmPassword
-public class MemberDTO {
+    String getEmail();
 
-    @Size(min = 2, max = 30)
-    private String username;
+    String getUsername();
 
-    @NotNull
-    @Email
-    private String email;
-
-    @NotNull
-    private String password;
-
-    @NotNull
-    private String passwordRepeat;
-
-    private String firstName;
-
-    private String lastName;
-
-    public boolean hasEqualPasswords() {
-        return password.equals(passwordRepeat);
-    }
 }

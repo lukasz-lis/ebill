@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" layout:decorator="layout-account" xmlns:layout="http://www.w3.org/1999/xhtml"
-      xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml" lang="en"
+      layout:decorator="layout-account" xmlns="http://www.w3.org/1999/html">
 <head>
     <title>Title</title>
 </head>
@@ -12,12 +12,10 @@
                 <div class="panel-heading" th:text="#{account.new.panel.title}"></div>
                 <div class="panel-body">
                     <form th:action="@{/rejestracja}" method="post" th:object="${memberDTO}">
-                        <div class="form-group" th:classappend="${#fields.hasErrors('username')}? 'has-error'">
+                        <div class="form-group">
                             <label for="username" th:text="#{account.new.username}"></label>
                             <input type="text" class="form-control" id="username" th:field="*{username}"
                                    th:placeholder="#{account.new.username}"/>
-                            <span class="help-block" th:if="${#fields.hasErrors('username')}"
-                                  th:errors="*{username}"></span>
                         </div>
                         <div class="form-group">
                             <label for="first-name" th:text="#{account.new.first.name}"></label>
@@ -47,6 +45,7 @@
                                    th:field="*{passwordRepeat}" th:placeholder="#{account.new.repeat.password}"/>
                         </div>
                         <button type="submit" class="btn btn-default" th:text="#{account.new.button.create}"></button>
+                        <a href="/logowanie" class="btn btn-default" th:text="#{account.new.button.back_to_login}"></a>
                     </form>
                 </div>
             </div>

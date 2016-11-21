@@ -1,8 +1,10 @@
-package pl.eightbit;
+package pl.eightbit.database;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+import pl.eightbit.dao.MemberRepository;
+import pl.eightbit.models.Member;
 
 @Component
 public class DatabaseLoader implements CommandLineRunner {
@@ -24,7 +26,7 @@ public class DatabaseLoader implements CommandLineRunner {
                 .username("lukasz.lis") //
                 .firstName("lukasz") //
                 .lastName("lis") //
-                .roles(new String[]{"ROLE_MANAGER"})
+                .roles(new String[]{"ROLE_ADMIN"})
                 .build();
 
         member.setPassword("haslo");
