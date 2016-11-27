@@ -4,12 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import pl.eightbit.validators.ConfirmPassword;
 
 import javax.persistence.*;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 @Data
 @Builder
@@ -45,13 +41,13 @@ public class Member {
     @JsonIgnore
     private Long version;
 
-    public void setPassword(String password) {
-        if(password != null && !password.isEmpty()) {
+    public void setPassword(final String password) {
+        if (password != null && !password.isEmpty()) {
             this.password = PASSWORD_ENCODER.encode(password);
         }
     }
 
-    public void setRoles(String roles) {
+    public void setRoles(final String roles) {
         this.roles = new String[]{roles};
     }
 

@@ -8,4 +8,5 @@ public interface MemberDTO {
 
     String getUsername();
 
+    boolean hasEqualPasswords();
 }

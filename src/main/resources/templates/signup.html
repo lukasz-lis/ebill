@@ -11,11 +11,13 @@
             <div class="panel panel-default">
                 <div class="panel-heading" th:text="#{account.new.panel.title}"></div>
                 <div class="panel-body">
-                    <form th:action="@{/rejestracja}" method="post" th:object="${memberDTO}">
-                        <div class="form-group">
+                    <form th:action="@{/rejestracja}" method="post" th:object="${memberWithPasswordDTO}">
+                        <div class="form-group" th:classappend="${#fields.hasErrors('username')}? 'has-error'">
                             <label for="username" th:text="#{account.new.username}"></label>
                             <input type="text" class="form-control" id="username" th:field="*{username}"
                                    th:placeholder="#{account.new.username}"/>
+                            <span class="help-block" th:if="${#fields.hasErrors('username')}"
+                                  th:errors="*{username}"></span>
                         </div>
                         <div class="form-group">
                             <label for="first-name" th:text="#{account.new.first.name}"></label>
@@ -27,17 +29,19 @@
                             <input type="text" class="form-control" id="last-name" th:field="*{lastName}"
                                    th:placeholder="#{account.new.last.name}"/>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" th:classappend="${#fields.hasErrors('email')}? 'has-error'">
                             <label for="email" th:text="#{account.new.email.address}"></label>
                             <input type="email" class="form-control" id="email" th:field="*{email}"
                                    th:placeholder="#{account.new.email.address}"/>
+                            <span class="help-block" th:if="${#fields.hasErrors('email')}"
+                                  th:errors="*{email}"></span>
                         </div>
-                        <div class="form-group" th:classappend="${#fields.hasErrors('global')}? 'has-error'">
+                        <div class="form-group" th:classappend="${#fields.hasErrors('password')}? 'has-error'">
                             <label for="password" th:text="#{account.new.password}"></label>
                             <input type="password" class="form-control" id="password" th:field="*{password}"
                                    th:placeholder="#{account.new.password}"/>
-                            <span class="help-block" th:if="${#fields.hasErrors('global')}"
-                                  th:errors="*{global}"></span>
+                            <span class="help-block" th:if="${#fields.hasErrors('password')}"
+                                  th:errors="*{password}"></span>
                         </div>
                         <div class="form-group">
                             <label for="password-repeat" th:text="#{account.new.repeat.password}"></label>

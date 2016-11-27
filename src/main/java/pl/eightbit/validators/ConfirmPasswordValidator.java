@@ -1,21 +1,27 @@
 package pl.eightbit.validators;
 
 
-import pl.eightbit.dto.MemberWithPasswordDTO;
+import org.springframework.stereotype.Service;
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
+import pl.eightbit.dto.MemberDTO;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+@Service
+public class ConfirmPasswordValidator implements Validator {
 
-class ConfirmPasswordValidator implements ConstraintValidator<ConfirmPassword, Object> {
 
     @Override
-    public void initialize(final ConfirmPassword constraintAnnotation) {
-
+    public boolean supports(final Class<?> clazz) {
+        return MemberDTO.class.isAssignableFrom(clazz);
     }
 
     @Override
-    public boolean isValid(final Object value, final ConstraintValidatorContext context) {
-        final MemberWithPasswordDTO member = (MemberWithPasswordDTO) value;
-        return member.hasEqualPasswords();
+    public void validate(final Object target, final Errors errors) {
+        final MemberDTO validatedMember = (MemberDTO) target;
+
+        if (!validatedMember.hasEqualPasswords()) {
+            errors.rejectValue("password", "ConfirmPassword");
+        }
+
     }
 }

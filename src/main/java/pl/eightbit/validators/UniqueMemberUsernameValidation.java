@@ -1,14 +1,15 @@
 package pl.eightbit.validators;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
 import pl.eightbit.dao.MemberRepository;
 import pl.eightbit.dto.MemberDTO;
 import pl.eightbit.models.Member;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
-
-class UniqueMemberUsernameValidation implements ConstraintValidator<UniqueMemberUsername, MemberDTO> {
+@Service
+public class UniqueMemberUsernameValidation implements Validator {
 
     private final MemberRepository memberRepository;
 
@@ -17,18 +18,21 @@ class UniqueMemberUsernameValidation implements ConstraintValidator<UniqueMember
         this.memberRepository = memberRepository;
     }
 
-    @Override
-    public void initialize(final UniqueMemberUsername constraintAnnotation) {
 
+    @Override
+    public boolean supports(final Class<?> clazz) {
+        return MemberDTO.class.isAssignableFrom(clazz);
     }
 
     @Override
-    public boolean isValid(final MemberDTO value, final ConstraintValidatorContext context) {
+    public void validate(final Object target, final Errors errors) {
+        final MemberDTO validatedMember = (MemberDTO) target;
 
-        final Member member = memberRepository.findByUsername(value.getUsername());
+        final Member member = memberRepository.findByUsername(validatedMember.getUsername());
 
-        return member == null || member.getId() == value.getId();
+        if (member != null && member.getId() != validatedMember.getId()) {
+            errors.rejectValue("username", "UniqueMemberUsername");
+        }
+
     }
-
-
 }

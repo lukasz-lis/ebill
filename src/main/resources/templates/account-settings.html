@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" layout:decorator="layout" xmlns:layout="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml" lang="en"
+      layout:decorator="layout">
 <head>
     <title>Ustawienia konta</title>
 </head>
@@ -10,7 +10,9 @@
     <div class="row">
         <div class="col-md-6">
             <p class="text-success" th:if="${saveCorrectly}" th:text="#{account.settings.save.correctly}"></p>
-            <form class="form-horizontal" th:action="@{/ustawienia-konta}" method="post" th:object="${memberDTO}">
+            <form class="form-horizontal" th:action="@{/ustawienia-konta}" method="post"
+                  th:object="${memberWithoutPasswordDTO}">
+                <input type="hidden" th:field="*{id}"/>
                 <div class="form-group" th:classappend="${#fields.hasErrors('username')}? 'has-error'">
                     <label for="username" class="col-sm-3 control-label" th:text="#{account.new.username}"></label>
                     <div class="col-sm-6">
@@ -38,7 +40,7 @@
                                th:field="*{lastName}"/>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group" th:classappend="${#fields.hasErrors('email')}? 'has-error'">
                     <label for="email" class="col-sm-3 control-label" th:text="#{account.new.email.address}"></label>
                     <div class="col-sm-6" th:classappend="${#fields.hasErrors('email')}? 'has-error'">
                         <input type="email" class="form-control" id="email"
@@ -49,25 +51,6 @@
                               th:errors="*{email}"></span>
                     </div>
                 </div>
-                <!--<div class="form-group">-->
-                    <!--<label for="password" class="col-sm-3 control-label" th:text="#{account.new.password}"></label>-->
-                    <!--<div class="col-sm-6" th:classappend="${#fields.hasErrors('password')}? 'has-error'">-->
-                        <!--<input type="password" class="form-control" id="password"-->
-                               <!--th:filed="*{password}"-->
-                               <!--th:placeholder="#{account.new.password}"/>-->
-                        <!--<span class="help-block"-->
-                              <!--th:if="${#fields.hasErrors('password')}"-->
-                              <!--th:errors="*{password}"></span>-->
-                    <!--</div>-->
-                <!--</div>-->
-                <!--<div class="form-group">-->
-                    <!--<label for="password-repeat" class="col-sm-3 control-label" th:text="#{account.new.repeat.password}"></label>-->
-                    <!--<div class="col-sm-6">-->
-                        <!--<input type="password" class="form-control" id="password-repeat"-->
-                               <!--th:filed="*{passwordRepeat}"-->
-                               <!--th:placeholder="#{account.new.repeat.password}"/>-->
-                    <!--</div>-->
-                <!--</div>-->
                 <div class="form-group">
                     <div class="col-sm-offset-3 col-sm-6">
                         <button type="submit" class="btn btn-default">Zapisz</button>
