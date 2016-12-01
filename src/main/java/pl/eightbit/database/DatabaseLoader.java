@@ -12,16 +12,15 @@ public class DatabaseLoader implements CommandLineRunner {
     private final MemberRepository memberRepository;
 
     @Autowired
-    public DatabaseLoader(MemberRepository memberRepository) {
+    public DatabaseLoader(final MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
     }
 
 
     @Override
-    public void run(String... strings) throws Exception {
+    public void run(final String... strings) throws Exception {
 
-
-        Member member = Member.builder() //
+        final Member member = Member.builder() //
                 .email("lukasz.lis@windowslive.com") //
                 .username("lukasz.lis") //
                 .firstName("lukasz") //
@@ -31,6 +30,10 @@ public class DatabaseLoader implements CommandLineRunner {
 
         member.setPassword("haslo");
 
-        memberRepository.save(member);
+        final Member byUsername = memberRepository.findByUsername(member.getUsername());
+        if (byUsername == null) {
+            memberRepository.save(member);
+        }
+
     }
 }

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml" lang="en"
+      layout:decorator="layout">
+<head>
+    <title th:text="#{tax.type.site.title}"></title>
+</head>
+<body>
+<div layout:fragment="content">
+    <form class="form-inline" th:action="@{/typy-podatkow}" method="post" th:object="${taxTypeDTO}">
+        <div class="form-group" th:classappend="${#fields.hasErrors('taxTypeAmount')}? 'has-error'">
+            <label for="tax-type" class="col-sm-4 control-label" th:text="#{tax.type.form.amount}"></label>
+            <div class="col-sm-2">
+                <input type="text" class="form-control" id="tax-type"
+                       th:placeholder="#{tax.type.form.amount}"
+                       th:field="*{taxTypeAmount}"/>
+                <span class="help-block"
+                      th:if="${#fields.hasErrors('taxTypeAmount')}"
+                      th:errors="*{taxTypeAmount}"></span>
+            </div>
+        </div>
+        <div class="form-group" th:classappend="${#fields.hasErrors('taxTypeName')}? 'has-error'">
+            <label for="tax-type-name" class="col-sm-4 control-label" th:text="#{tax.type.form.name}"></label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control" id="tax-type-name"
+                       th:placeholder="#{tax.type.form.name}"
+                       th:field="*{taxTypeName}"/>
+                <span class="help-block"
+                      th:if="${#fields.hasErrors('taxTypeName')}"
+                      th:errors="*{taxTypeName}"></span>
+
+            </div>
+        </div>
+        <button type="submit" class="btn btn-default" th:text="#{button.common.save}"></button>
+    </form>
+    <div class="taxTypes" th:unless="${#lists.isEmpty(taxTypes)}">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th th:text="#{tax.type.table.column.name}"></th>
+                <th th:text="#{tax.type.table.column.amount}"></th>
+                <th th:text="#{tax.type.table.column.buttons}"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="taxType : ${taxTypes}">
+                <td th:text="${taxType.taxTypeAmount}"></td>
+                <td th:text="${taxType.taxTypeName}"></td>
+                <td>
+                    <a class="btn btn-danger" th:href="@{/typy-podatkow/} + ${taxType.id}"
+                       th:text="#{button.common.delete}"></a>
+                </td>
+            </tr>
+            </tbody>
+
+        </table>
+    </div>
+</div>
+
+</body>
+</html>

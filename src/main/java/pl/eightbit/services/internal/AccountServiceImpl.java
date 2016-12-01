@@ -10,8 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import pl.eightbit.dao.MemberRepository;
-import pl.eightbit.dto.MemberWithPasswordDTO;
-import pl.eightbit.dto.MemberWithoutPasswordDTO;
+import pl.eightbit.dto.MemberDTO;
 import pl.eightbit.models.Member;
 import pl.eightbit.services.AccountService;
 
@@ -35,7 +34,7 @@ public class AccountServiceImpl implements AccountService {
 
 
     @Override
-    public void update(final MemberWithoutPasswordDTO memberDTO) {
+    public void update(final MemberDTO memberDTO) {
 
         final Optional<Member> oldMember = Optional.ofNullable(memberRepository.findById(memberDTO.getId()));
 
@@ -43,26 +42,26 @@ public class AccountServiceImpl implements AccountService {
         refreshAuthorizedMember(memberDTO.getUsername());
     }
 
-    private void mapAndUpdate(final MemberWithoutPasswordDTO memberDTO, final Member member) {
+    private void mapAndUpdate(final MemberDTO memberDTO, final Member member) {
         modelMapper.map(memberDTO, member);
         memberRepository.save(member);
     }
 
     @Override
-    public void create(final MemberWithPasswordDTO memberDTO) {
+    public void create(final MemberDTO memberDTO) {
         mapAndCreate(memberDTO);
     }
 
-    private void mapAndCreate(final MemberWithPasswordDTO memberDTO) {
+    private void mapAndCreate(final MemberDTO memberDTO) {
         final Member newMember = modelMapper.map(memberDTO, Member.class);
         memberRepository.save(newMember);
     }
 
     @Override
-    public MemberWithoutPasswordDTO getMemberWithoutPasswordDTO() {
+    public MemberDTO getMemberWithoutPasswordDTO() {
 
         final Optional<Member> member = getLoggedMember();
-        return modelMapper.map(member.orElseThrow(() -> new RuntimeException("User must be logged.")), MemberWithoutPasswordDTO.class);
+        return modelMapper.map(member.orElseThrow(() -> new RuntimeException("User must be logged.")), MemberDTO.class);
     }
 
     public void refreshAuthorizedMember(final String username) {

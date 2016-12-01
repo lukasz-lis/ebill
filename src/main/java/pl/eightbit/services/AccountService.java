@@ -1,12 +1,11 @@
 package pl.eightbit.services;
 
-import pl.eightbit.dto.MemberWithPasswordDTO;
-import pl.eightbit.dto.MemberWithoutPasswordDTO;
+import pl.eightbit.dto.MemberDTO;
 
 public interface AccountService {
-    void update(MemberWithoutPasswordDTO memberDTO);
+    void update(MemberDTO memberDTO);
 
-    void create(MemberWithPasswordDTO memberDTO);
+    void create(MemberDTO memberDTO);
 
-    MemberWithoutPasswordDTO getMemberWithoutPasswordDTO();
+    MemberDTO getMemberWithoutPasswordDTO();
 }

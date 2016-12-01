@@ -9,8 +9,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import pl.eightbit.dto.MemberWithPasswordDTO;
-import pl.eightbit.dto.MemberWithoutPasswordDTO;
+import pl.eightbit.dto.MemberDTO;
 import pl.eightbit.services.AccountService;
 import pl.eightbit.validators.ConfirmPasswordValidator;
 import pl.eightbit.validators.UniqueMemberEmailValidation;
@@ -46,21 +45,21 @@ public class AccountController {
 
     @RequestMapping(value = "/rejestracja", method = RequestMethod.GET)
     public String registerMember(final Model model) {
-        model.addAttribute("memberWithPasswordDTO", new MemberWithPasswordDTO());
+        model.addAttribute("memberDTO", new MemberDTO());
         return SIGN_UP;
 
     }
 
     @RequestMapping(value = "/rejestracja", method = RequestMethod.POST)
-    public String createMember(@Valid final MemberWithPasswordDTO memberWithPasswordDTO, final BindingResult bindingResult, final Model model) {
+    public String createMember(@Valid final MemberDTO memberDTO, final BindingResult bindingResult, final Model model) {
 
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("memberWithPasswordDTO", memberWithPasswordDTO);
+            model.addAttribute("memberDTO", memberDTO);
             return SIGN_UP;
         }
 
-        accountService.create(memberWithPasswordDTO);
+        accountService.create(memberDTO);
         return SIGN_UP_SUCCESSFUL;
 
     }
@@ -68,22 +67,22 @@ public class AccountController {
     @RequestMapping(value = "/ustawienia-konta", method = RequestMethod.GET)
     public String fetchExistingMember(final Model model) {
 
-        final MemberWithoutPasswordDTO memberDTO = accountService.getMemberWithoutPasswordDTO();
-        model.addAttribute("memberWithoutPasswordDTO", memberDTO);
+        final MemberDTO memberDTO = accountService.getMemberWithoutPasswordDTO();
+        model.addAttribute("memberDTO", memberDTO);
 
         return ACCOUNT_SETTINGS;
     }
 
     @RequestMapping(value = "/ustawienia-konta", method = RequestMethod.POST)
-    public String updateMember(@Valid final MemberWithoutPasswordDTO memberWithoutPasswordDTO, final BindingResult bindingResult, final Model model) {
+    public String updateMember(@Valid final MemberDTO memberDTO, final BindingResult bindingResult, final Model model) {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("saveCorrectly", false);
-            model.addAttribute("memberWithoutPasswordDTO", memberWithoutPasswordDTO);
+            model.addAttribute("memberDTO", memberDTO);
             return ACCOUNT_SETTINGS;
         }
 
-        accountService.update(memberWithoutPasswordDTO);
+        accountService.update(memberDTO);
 
         model.addAttribute("saveCorrectly", true);
 

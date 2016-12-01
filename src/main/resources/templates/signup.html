@@ -11,7 +11,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading" th:text="#{account.new.panel.title}"></div>
                 <div class="panel-body">
-                    <form th:action="@{/rejestracja}" method="post" th:object="${memberWithPasswordDTO}">
+                    <form th:action="@{/rejestracja}" method="post" th:object="${memberDTO}">
                         <div class="form-group" th:classappend="${#fields.hasErrors('username')}? 'has-error'">
                             <label for="username" th:text="#{account.new.username}"></label>
                             <input type="text" class="form-control" id="username" th:field="*{username}"
