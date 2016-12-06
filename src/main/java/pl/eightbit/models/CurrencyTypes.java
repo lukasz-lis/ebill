@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 
 @Entity
 @Data
-public class Currency implements Serializable {
+public class CurrencyTypes implements Serializable {
 
     @Id
     @GeneratedValue

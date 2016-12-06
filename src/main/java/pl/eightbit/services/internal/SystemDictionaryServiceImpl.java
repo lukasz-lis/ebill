@@ -5,8 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
-import pl.eightbit.dao.TaxTypesRepository;
+import pl.eightbit.dao.CurrencyTypeRepository;
+import pl.eightbit.dao.TaxTypeRepository;
+import pl.eightbit.dto.CurrencyTypeDTO;
 import pl.eightbit.dto.TaxTypeDTO;
+import pl.eightbit.models.CurrencyTypes;
 import pl.eightbit.models.TaxTypes;
 import pl.eightbit.services.SystemDictionaryService;
 
@@ -14,38 +17,51 @@ import pl.eightbit.services.SystemDictionaryService;
 public class SystemDictionaryServiceImpl implements SystemDictionaryService {
 
 
-    private final TaxTypesRepository taxTypesRepository;
+    private final TaxTypeRepository taxTypeRepository;
+    private final CurrencyTypeRepository currencyTypeRepository;
     private final ModelMapper modelMapper;
 
 
     @Autowired
-    public SystemDictionaryServiceImpl(final TaxTypesRepository taxTypesRepository, final ModelMapper modelMapper) {
+    public SystemDictionaryServiceImpl(final TaxTypeRepository taxTypeRepository, final CurrencyTypeRepository currencyTypeRepository, final ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
-        this.taxTypesRepository = taxTypesRepository;
+        this.taxTypeRepository = taxTypeRepository;
+        this.currencyTypeRepository = currencyTypeRepository;
     }
 
     @Override
-    public Page<TaxTypeDTO> getAllTaxTypeDTO(final int pageSize, final int pageNumber) {
-        final Page<TaxTypes> rawRecords = taxTypesRepository.findAll(new PageRequest(pageNumber, pageSize));
-        return rawRecords.map(this::convertToDTO);
+    public Page<TaxTypeDTO> fetchAllTaxTypesDTO(final int pageSize, final int pageNumber) {
+        final Page<TaxTypes> rawRecords = taxTypeRepository.findAll(new PageRequest(pageNumber, pageSize));
+        return rawRecords.map(taxTypes -> modelMapper.map(taxTypes, TaxTypeDTO.class));
     }
 
     @Override
     public void createTaxType(final TaxTypeDTO taxTypeDTO) {
-        final TaxTypes taxTypes = convertFromDTO(taxTypeDTO);
-        taxTypesRepository.save(taxTypes);
+        final TaxTypes taxTypes = modelMapper.map(taxTypeDTO, TaxTypes.class);
+        taxTypeRepository.save(taxTypes);
     }
 
     @Override
     public void deleteTaxType(final long taxTypeID) {
-        taxTypesRepository.delete(taxTypeID);
+        taxTypeRepository.delete(taxTypeID);
     }
 
-    private TaxTypeDTO convertToDTO(final TaxTypes taxTypes) {
-        return modelMapper.map(taxTypes, TaxTypeDTO.class);
+    @Override
+    public Page<CurrencyTypeDTO> fetchAllCurrencyTypesDTO(int pageSize, int pageNumber) {
+        final Page<CurrencyTypes> rawRecords = currencyTypeRepository.findAll(new PageRequest(pageNumber, pageSize));
+        return rawRecords.map(taxTypes -> modelMapper.map(taxTypes, CurrencyTypeDTO.class));
     }
 
-    private TaxTypes convertFromDTO(final TaxTypeDTO taxTypesDTO) {
-        return modelMapper.map(taxTypesDTO, TaxTypes.class);
+    @Override
+    public void createCurrencyType(CurrencyTypeDTO currencyTypeDTO) {
+        CurrencyTypes currencyType = modelMapper.map(currencyTypeDTO, CurrencyTypes.class);
+        currencyTypeRepository.save(currencyType);
     }
+
+    @Override
+    public void deleteCurrencyType(long currencyTypeID) {
+        currencyTypeRepository.delete(currencyTypeID);
+
+    }
+
 }

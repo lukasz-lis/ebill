@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import pl.eightbit.models.TaxTypes;
 
 @Component
-public interface TaxTypesRepository extends PagingAndSortingRepository<TaxTypes, Long> {
+public interface TaxTypeRepository extends PagingAndSortingRepository<TaxTypes, Long> {
 
 
 }

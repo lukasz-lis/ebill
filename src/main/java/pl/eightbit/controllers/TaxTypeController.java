@@ -32,7 +32,7 @@ public class TaxTypeController {
     @RequestMapping(value = "/typy-podatkow", method = GET)
     public String getFirstPageForTaxTypes(final Model model) {
 
-        final Page<TaxTypeDTO> firstPage = systemDictionaryService.getAllTaxTypeDTO(DEFAULT_PAGE_SIZE, DEFAULT_PAGE_NUMBER);
+        final Page<TaxTypeDTO> firstPage = systemDictionaryService.fetchAllTaxTypesDTO(DEFAULT_PAGE_SIZE, DEFAULT_PAGE_NUMBER);
 
         model.addAttribute("totalPagesNumber", firstPage.getTotalPages());
         model.addAttribute("totalItemNumber", firstPage.getTotalElements());
