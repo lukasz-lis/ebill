@@ -48,11 +48,11 @@ public class CurrencyTypeController {
     @RequestMapping(value = "/typy-walut", method = POST)
     public String createNewTaxType(@Valid final CurrencyTypeDTO currencyTypeDTO, final BindingResult bindingResult, final Model model) {
 
-        if (!bindingResult.hasErrors()) {
-            systemDictionaryService.createCurrencyType(currencyTypeDTO);
+        if (bindingResult.hasErrors()) {
+            return CURRENCY_TYPES;
         }
 
-
+        systemDictionaryService.createCurrencyType(currencyTypeDTO);
         return "redirect:/typy-walut";
     }
 

@@ -6,65 +6,77 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <form class="form-inline" th:action="@{/typy-podatkow}" method="post" th:object="${currencyTypeDTO}">
-        <div class="form-group" th:classappend="${#fields.hasErrors('currencyCode')}? 'has-error'">
-            <label for="currency-code" class="col-sm-4 control-label" th:text="#{currency.type.form.code}"></label>
-            <div class="col-sm-2">
-                <input type="text" class="form-control" id="currency-code"
-                       th:placeholder="#{currency.type.form.code}"
-                       th:field="*{currencyCode}"/>
-                <span class="help-block"
-                      th:if="${#fields.hasErrors('currencyCode')}"
-                      th:errors="*{currencyCode}"></span>
-            </div>
-        </div>
-        <div class="form-group" th:classappend="${#fields.hasErrors('fullName')}? 'has-error'">
-            <label for="currency-full-name" class="col-sm-4 control-label" th:text="#{currency.type.form.fullname}"></label>
-            <div class="col-sm-3">
-                <input type="text" class="form-control" id="currency-full-name"
-                       th:placeholder="#{currency.type.form.fullname}"
-                       th:field="*{fullName}"/>
-                <span class="help-block"
-                      th:if="${#fields.hasErrors('fullName')}"
-                      th:errors="*{fullName}"></span>
+    <div class="row">
+        <div class="col-md-6">
+            <form class="form-horizontal" th:action="@{/typy-walut}" method="post" th:object="${currencyTypeDTO}">
+                <div class="form-group" th:classappend="${#fields.hasErrors('currencyCode')}? 'has-error'">
+                    <label for="currency-code" class="col-sm-4 control-label"
+                           th:text="#{currency.type.form.code}"></label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="currency-code"
+                               th:placeholder="#{currency.type.form.code}"
+                               th:field="*{currencyCode}"/>
+                        <span class="help-block"
+                              th:if="${#fields.hasErrors('currencyCode')}"
+                              th:errors="*{currencyCode}"></span>
+                    </div>
+                </div>
+                <div class="form-group" th:classappend="${#fields.hasErrors('fullName')}? 'has-error'">
+                    <label for="currency-full-name" class="col-sm-4 control-label"
+                           th:text="#{currency.type.form.fullname}"></label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="currency-full-name"
+                               th:placeholder="#{currency.type.form.fullname}"
+                               th:field="*{fullName}"/>
+                        <span class="help-block"
+                              th:if="${#fields.hasErrors('fullName')}"
+                              th:errors="*{fullName}"></span>
 
-            </div>
-        </div>
-        <div class="form-group" th:classappend="${#fields.hasErrors('exchangeRate')}? 'has-error'">
-            <label for="currency-type-exchange-rate" class="col-sm-4 control-label" th:text="#{currency.type.form.exchange.rate}"></label>
-            <div class="col-sm-3">
-                <input type="text" class="form-control" id="currency-type-exchange-rate"
-                       th:placeholder="#{tax.type.form.exchange.rate}"
-                       th:field="*{exchangeRate}"/>
-                <span class="help-block"
-                      th:if="${#fields.hasErrors('exchangeRate')}"
-                      th:errors="*{exchangeRate}"></span>
+                    </div>
+                </div>
+                <div class="form-group" th:classappend="${#fields.hasErrors('exchangeRate')}? 'has-error'">
+                    <label for="currency-type-exchange-rate" class="col-sm-4 control-label"
+                           th:text="#{currency.type.form.exchange.rate}"></label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="currency-type-exchange-rate"
+                               th:placeholder="#{currency.type.form.exchange.rate}"
+                               th:field="*{exchangeRate}"/>
+                        <span class="help-block"
+                              th:if="${#fields.hasErrors('exchangeRate')}"
+                              th:errors="*{exchangeRate}"></span>
 
-            </div>
+                    </div>
+                </div>
+                <div class="col-sm-offset-4 col-sm-6">
+                    <button type="submit" class="btn btn-default" th:text="#{button.common.save}"></button>
+                </div>
+            </form>
         </div>
-        <button type="submit" class="btn btn-default" th:text="#{button.common.save}"></button>
-    </form>
-    <div class="taxTypes" th:unless="${#lists.isEmpty(taxTypes)}">
-        <table class="table table-hover">
-            <thead>
-            <tr>
-                <th th:text="#{tax.type.table.column.name}"></th>
-                <th th:text="#{tax.type.table.column.amount}"></th>
-                <th th:text="#{tax.type.table.column.buttons}"></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="taxType : ${taxTypes}">
-                <td th:text="${taxType.taxTypeAmount}"></td>
-                <td th:text="${taxType.taxTypeName}"></td>
-                <td>
-                    <a class="btn btn-danger" th:href="@{/typy-podatkow/} + ${taxType.id}"
-                       th:text="#{button.common.delete}"></a>
-                </td>
-            </tr>
-            </tbody>
 
-        </table>
+
+        <div class="taxTypes" th:unless="${#lists.isEmpty(currencyTypes)}">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th th:text="#{tax.type.table.column.name}"></th>
+                    <th th:text="#{tax.type.table.column.amount}"></th>
+                    <th th:text="#{tax.type.table.column.buttons}"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="currencyType : ${currencyTypes}">
+                    <td th:text="${currencyType.currencyCode}"></td>
+                    <td th:text="${currencyType.fullName}"></td>
+                    <td th:text="${currencyType.exchangeRate}"></td>
+                    <td>
+                        <a class="btn btn-danger" th:href="@{/typy-walut/} + ${currencyType.id}"
+                           th:text="#{button.common.delete}"></a>
+                    </td>
+                </tr>
+                </tbody>
+
+            </table>
+        </div>
     </div>
 </div>
 

@@ -47,9 +47,10 @@ public class TaxTypeController {
     @RequestMapping(value = "/typy-podatkow", method = POST)
     public String createNewTaxType(@Valid final TaxTypeDTO taxTypeDTO, final BindingResult bindingResult, final Model model) {
 
-        if (!bindingResult.hasErrors()) {
-            systemDictionaryService.createTaxType(taxTypeDTO);
+        if (bindingResult.hasErrors()) {
+            return TAX_TYPES;
         }
+        systemDictionaryService.createTaxType(taxTypeDTO);
 
 
         return "redirect:/typy-podatkow";
