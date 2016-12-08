@@ -1,11 +1,10 @@
 package pl.eightbit.dto;
 
 import lombok.Data;
-import org.springframework.format.annotation.NumberFormat;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import java.math.BigDecimal;
+import javax.validation.constraints.Size;
 
 @Data
 public class CurrencyTypeDTO {
@@ -13,11 +12,13 @@ public class CurrencyTypeDTO {
     private long id;
 
     @NotNull
+    @Size(min = 1)
     private String currencyCode;
     @NotNull
+    @Size(min = 1)
     private String fullName;
     @NotNull
-    @Pattern(regexp = "\\d+\\.\\d{2}", message = "{javax.validation.constraints.NumberFormat}")
+    @Pattern(regexp = "\\d+\\.\\d{2}")
     private String exchangeRate;
 
 }
