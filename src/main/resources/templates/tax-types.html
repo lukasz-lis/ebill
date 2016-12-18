@@ -9,6 +9,7 @@
     <div class="row">
         <div class="col-md-6">
             <form class="form-horizontal" th:action="@{/typy-podatkow}" method="post" th:object="${taxTypeDTO}">
+                <input type="hidden" th:field="*{id}"/>
                 <div class="form-group" th:classappend="${#fields.hasErrors('taxTypeAmount')}? 'has-error'">
                     <label for="tax-type" class="col-sm-4 control-label" th:text="#{tax.type.form.amount}"></label>
                     <div class="col-sm-6">
@@ -38,7 +39,7 @@
             </form>
         </div>
     </div>
-    <div class="taxTypes" th:unless="${#lists.isEmpty(taxTypes)}">
+    <div class="taxTypes" th:unless="${#lists.isEmpty(taxTypeDTOs)}">
         <table class="table table-hover">
             <thead>
             <tr>
@@ -48,11 +49,13 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="taxType : ${taxTypes}">
-                <td th:text="${taxType.taxTypeAmount}"></td>
-                <td th:text="${taxType.taxTypeName}"></td>
+            <tr th:each="taxTypeDTO : ${taxTypeDTOs}">
+                <td th:text="${taxTypeDTO.taxTypeAmount}"></td>
+                <td th:text="${taxTypeDTO.taxTypeName}"></td>
                 <td>
-                    <a class="btn btn-danger" th:href="@{/typy-podatkow/} + ${taxType.id}"
+                    <a class="btn btn-warning" th:href="@{/typy-podatkow/typ-podatku/} + ${taxTypeDTO.id}"
+                       th:text="#{button.common.change}"></a>
+                    <a class="btn btn-danger" th:href="@{/typy-podatkow/} + ${taxTypeDTO.id}"
                        th:text="#{button.common.delete}"></a>
                 </td>
             </tr>

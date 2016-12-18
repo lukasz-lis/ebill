@@ -9,6 +9,7 @@
     <div class="row">
         <div class="col-md-6">
             <form class="form-horizontal" th:action="@{/typy-walut}" method="post" th:object="${currencyTypeDTO}">
+                <input type="hidden" th:field="*{id}"/>
                 <div class="form-group" th:classappend="${#fields.hasErrors('currencyCode')}? 'has-error'">
                     <label for="currency-code" class="col-sm-4 control-label"
                            th:text="#{currency.type.form.code}"></label>
@@ -54,22 +55,25 @@
         </div>
 
 
-        <div class="taxTypes" th:unless="${#lists.isEmpty(currencyTypes)}">
+        <div class="taxTypes" th:unless="${#lists.isEmpty(currencyTypeDTOs)}">
             <table class="table table-hover">
                 <thead>
                 <tr>
-                    <th th:text="#{tax.type.table.column.name}"></th>
-                    <th th:text="#{tax.type.table.column.amount}"></th>
-                    <th th:text="#{tax.type.table.column.buttons}"></th>
+                    <th th:text="#{currency.type.table.column.code}"></th>
+                    <th th:text="#{currency.type.table.column.name}"></th>
+                    <th th:text="#{currency.type.table.column.exchange.rate}"></th>
+                    <th th:text="#{currency.type.table.column.buttons}"></th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="currencyType : ${currencyTypes}">
-                    <td th:text="${currencyType.currencyCode}"></td>
-                    <td th:text="${currencyType.fullName}"></td>
-                    <td th:text="${currencyType.exchangeRate}"></td>
+                <tr th:each="currencyTypeDTO : ${currencyTypeDTOs}">
+                    <td th:text="${currencyTypeDTO.currencyCode}"></td>
+                    <td th:text="${currencyTypeDTO.fullName}"></td>
+                    <td th:text="${currencyTypeDTO.exchangeRate}"></td>
                     <td>
-                        <a class="btn btn-danger" th:href="@{/typy-walut/} + ${currencyType.id}"
+                        <a class="btn btn-warning" th:href="@{/typy-walut/typ-waluty/} + ${currencyTypeDTO.id}"
+                           th:text="#{button.common.change}"></a>
+                        <a class="btn btn-danger" th:href="@{/typy-walut/} + ${currencyTypeDTO.id}"
                            th:text="#{button.common.delete}"></a>
                     </td>
                 </tr>

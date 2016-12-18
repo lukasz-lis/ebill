@@ -13,7 +13,7 @@ import java.util.List;
 @Data
 @Entity
 @ToString
-public class Receipts implements Serializable {
+public class Receipt implements Serializable {
 
     private static final String RECEIPT = "receipt";
 
@@ -32,13 +32,13 @@ public class Receipts implements Serializable {
     private BigDecimal totalFreeTaxAmount;
 
     @OneToMany(mappedBy = RECEIPT)
-    private List<ReceiptsToReceiptsLines> receiptsToReceiptsLines;
+    private List<ReceiptToReceiptsLine> receiptsToReceiptLines;
 
     @OneToMany(mappedBy = RECEIPT)
-    private List<TaxPayersToReceipts> taxPayersToReceiptses;
+    private List<TaxPayerToReceipt> taxPayersToReceipts;
 
     @OneToMany(mappedBy = RECEIPT)
-    private List<TotalTaxesToReceipts> totalTaxesToReceiptses;
+    private List<TotalTax> totalTaxes;
 
     @Version
     @JsonIgnore

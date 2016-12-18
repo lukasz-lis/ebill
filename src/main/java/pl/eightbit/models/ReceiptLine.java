@@ -10,25 +10,25 @@ import java.util.List;
 
 @Entity
 @Data
-public class ReceiptsLines implements Serializable {
+public class ReceiptLine implements Serializable {
 
     @Id
     @GeneratedValue
     private long id;
 
-    private String godsName;
+    private String productName;
     private String code;
     private int amount;
-    private BigDecimal netPrices;
+    private BigDecimal netPrice;
 
-    @ManyToOne(targetEntity = Discounts.class, cascade = CascadeType.PERSIST)
-    private Discounts discount;
+    @ManyToOne(targetEntity = Discount.class, cascade = CascadeType.PERSIST)
+    private Discount discount;
 
-    @ManyToOne(targetEntity = TaxTypes.class, cascade = CascadeType.PERSIST)
-    private TaxTypes taxType;
+    @ManyToOne(targetEntity = TaxType.class, cascade = CascadeType.PERSIST)
+    private TaxType taxType;
 
     @OneToMany(mappedBy = "receiptLine")
-    private List<ReceiptsToReceiptsLines> receiptsToReceiptsLines;
+    private List<ReceiptToReceiptsLine> receiptsToReceiptLines;
 
     @Version
     @JsonIgnore

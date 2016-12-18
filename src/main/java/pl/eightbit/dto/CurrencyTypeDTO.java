@@ -2,8 +2,8 @@ package pl.eightbit.dto;
 
 import lombok.Data;
 
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Data
@@ -18,7 +18,7 @@ public class CurrencyTypeDTO {
     @Size(min = 1)
     private String fullName;
     @NotNull
-    @Pattern(regexp = "\\d+\\.\\d{2}")
+    @Digits(integer = 10, fraction = 2)
     private String exchangeRate;
 
 }

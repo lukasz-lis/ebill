@@ -9,18 +9,18 @@ import java.io.Serializable;
 
 @Entity
 @Data
-@Table(name = "receipts_to_receipts_lines")
-public class ReceiptsToReceiptsLines implements Serializable {
+@Table(name = "receipts_to_receipt_lines")
+public class ReceiptToReceiptsLine implements Serializable {
 
     @Id
-    @ManyToOne(targetEntity = Receipts.class)
+    @ManyToOne(targetEntity = Receipt.class)
     @JoinColumn(name = "receipt_id", referencedColumnName = "id")
-    private Receipts receipt;
+    private Receipt receipt;
 
     @Id
-    @ManyToOne(targetEntity = ReceiptsLines.class)
+    @ManyToOne(targetEntity = ReceiptLine.class)
     @JoinColumn(name = "receipt_line_id", referencedColumnName = "id")
-    private ReceiptsLines receiptLine;
+    private ReceiptLine receiptLine;
 
     @Version
     @JsonIgnore

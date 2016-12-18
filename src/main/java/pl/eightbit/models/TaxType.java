@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 
 @Data
 @Entity
-public class TaxTypes implements Serializable {
+public class TaxType implements Serializable {
 
     @Id
     @GeneratedValue

@@ -5,15 +5,19 @@ import pl.eightbit.dto.CurrencyTypeDTO;
 import pl.eightbit.dto.TaxTypeDTO;
 
 public interface SystemDictionaryService {
-    Page<TaxTypeDTO> fetchAllTaxTypesDTO(int pageSize, int pageNumber);
+    Page<TaxTypeDTO> loadTaxTypeDTOs(int pageSize, int pageNumber);
 
-    void createTaxType(TaxTypeDTO taxTypeDTO);
+    void saveTaxTypeDTO(TaxTypeDTO taxTypeDTO);
 
-    void deleteTaxType(long taxTypeID);
+    void deleteTaxTypeDTO(long taxTypeID);
 
-    Page<CurrencyTypeDTO> fetchAllCurrencyTypesDTO(int pageSize, int pageNumber);
+    TaxTypeDTO findTaxTypeDTO(long taxTypeID);
 
-    void createCurrencyType(CurrencyTypeDTO taxTypeDTO);
+    Page<CurrencyTypeDTO> loadCurrencyTypeDTOs(int pageSize, int pageNumber);
 
-    void deleteCurrencyType(long taxTypeID);
+    void saveCurrencyTypeDTO(CurrencyTypeDTO taxTypeDTO);
+
+    void deleteCurrencyTypeDTO(long taxTypeID);
+
+    CurrencyTypeDTO findCurrencyTypeDTO(long currencyTypeID);
 }
