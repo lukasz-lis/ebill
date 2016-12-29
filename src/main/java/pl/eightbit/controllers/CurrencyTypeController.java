@@ -36,7 +36,7 @@ public class CurrencyTypeController {
     @RequestMapping(value = "/typy-walut", method = GET)
     public String getFirstPageWithCurrencyTypeDTOs(final Model model) {
 
-        final Page<CurrencyTypeDTO> page = systemDictionaryService.loadCurrencyTypeDTOs(DEFAULT_PAGE_SIZE, DEFAULT_PAGE_NUMBER);
+        final Page<CurrencyTypeDTO> page = systemDictionaryService.loadCurrencyTypeDTOPage(DEFAULT_PAGE_SIZE, DEFAULT_PAGE_NUMBER);
 
         model.addAttribute(TOTAL_PAGES_NUMBER, page.getTotalPages());
         model.addAttribute(TOTAL_ITEM_NUMBER, page.getTotalElements());

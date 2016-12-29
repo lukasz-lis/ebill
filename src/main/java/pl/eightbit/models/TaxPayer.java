@@ -1,7 +1,7 @@
 package pl.eightbit.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,14 +11,20 @@ import java.io.Serializable;
 
 @Data
 @Entity
+@Builder
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class TaxPayer implements Serializable {
+
+    public static final String ID = "id";
+
 
     @Id
     @GeneratedValue
     private long id;
 
-    private String taxPayerName;
-    private String name;
+    private String fullName;
+    private String firstName;
     private String surname;
     private String nip;
     private String regon;

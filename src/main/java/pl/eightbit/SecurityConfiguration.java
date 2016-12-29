@@ -1,9 +1,7 @@
 package pl.eightbit;
 
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -23,14 +21,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private MemberDetailsService memberDetailsService;
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
         auth
                 .userDetailsService(memberDetailsService)
                 .passwordEncoder(Member.PASSWORD_ENCODER);
     }
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    protected void configure(final HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
                 .antMatchers("/built/**", "/node_modules/**", "/main.css", "/rejestracja").permitAll()
@@ -47,11 +45,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .logout()
                 .logoutUrl("/wyloguj")
                 .logoutSuccessUrl("/");
-    }
-
-    @Bean
-    public ModelMapper modelMapper() {
-        return new ModelMapper();
     }
 
 }

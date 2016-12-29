@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml" lang="en"
+      layout:decorator="layout">
+<head>
+    <title th:text="#{receipt.list.title}"></title>
+</head>
+<body>
+<div layout:fragment="content">
+
+    <div class="taxTypes" th:unless="${#lists.isEmpty(receiptDTOs)}">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th th:text="#{receipt.list.table.receipt.number}"></th>
+                <th th:text="#{receipt.list.table.total.gross}"></th>
+                <th th:text="#{receipt.list.table.create.date}"></th>
+                <th th:text="#{receipt.list.table.tax.payer.full.name}"></th>
+                <th th:text="#{receipt.list.table.tax.product.count}"></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="receiptDTO : ${receiptDTOs}">
+                <td th:text="${receiptDTO.receiptNumber}"></td>
+                <td th:text="${receiptDTO.totalGross}"></td>
+                <td th:text="${receiptDTO.createDate}"></td>
+                <td th:text="${receiptDTO.taxPayerFullName}"></td>
+                <td th:text="${receiptDTO.receiptLinesCount}"></td>
+                <td>
+                    <a class="btn btn-warning" th:href="@{/paragony/} + ${receiptDTO.id}"
+                       th:text="#{receipt.list.table.details}"></a>
+                </td>
+            </tr>
+            </tbody>
+
+        </table>
+    </div>
+
+</div>
+</body>
+</html>

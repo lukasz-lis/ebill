@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml" lang="en"
+      layout:decorator="layout">
+<head>
+    <title th:text="#{receipt.list.title}"></title>
+</head>
+<body>
+<div layout:fragment="content">
+
+    <div class="row">
+        <div class="col-xs-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title" th:text="#{receipt.details.panel.summary.title}"></h3>
+                </div>
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-xs-6 col-md-4" th:text="#{receipt.details.panel.receipt.number}"></div>
+                            <div class="col-xs-12 col-md-8" th:text="${receiptDetailsDTO.receiptNumber}"></div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-xs-6 col-md-4" th:text="#{receipt.details.panel.receipt.total.gross}"></div>
+                            <div class="col-xs-12 col-md-8" th:text="${receiptDetailsDTO.totalGross}"></div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-xs-6 col-md-4" th:text="#{receipt.details.panel.receipt.total.net}"></div>
+                            <div class="col-xs-12 col-md-8" th:text="${receiptDetailsDTO.totalNet}"></div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-xs-6 col-md-4"
+                                 th:text="#{receipt.details.panel.receipt.total.tax.amount}"></div>
+                            <div class="col-xs-12 col-md-8" th:text="${receiptDetailsDTO.totalTaxAmount}"></div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-xs-6 col-md-4" th:text="#{receipt.details.panel.receipt.create.date}"></div>
+                            <div class="col-xs-12 col-md-8" th:text="${receiptDetailsDTO.createDate}"></div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-xs-6 col-md-4"
+                                 th:text="#{receipt.details.panel.receipt.cashbox.number}"></div>
+                            <div class="col-xs-12 col-md-8" th:text="${receiptDetailsDTO.cashBoxUniqueNumber}"></div>
+                        </div>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title" th:text="#{receipt.details.panel.tax.payer.title}"></h3>
+                </div>
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-xs-6 col-md-4" th:text="#{receipt.details.panel.tax.payer.full.name}"></div>
+                            <div class="col-xs-12 col-md-8" th:text="${receiptDetailsDTO.taxPayerFullName}"></div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-xs-6 col-md-4"
+                                 th:text="#{receipt.details.panel.tax.payer.first.and.surname}"></div>
+                            <div class="col-xs-12 col-md-8">
+                                <span th:text="${receiptDetailsDTO.taxPayerFirstName}"></span>
+                                <span th:text="${receiptDetailsDTO.taxPayerSurname}"></span>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-xs-6 col-md-4"
+                                 th:text="#{receipt.details.panel.tax.payer.nip}"></div>
+                            <div class="col-xs-12 col-md-8" th:text="${receiptDetailsDTO.taxPayerNip}"></div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-xs-6 col-md-4"
+                                 th:text="#{receipt.details.panel.tax.payer.regon}"></div>
+                            <div class="col-xs-12 col-md-8" th:text="${receiptDetailsDTO.taxPayerRegon}"></div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-xs-6 col-md-4"
+                                 th:text="#{receipt.details.panel.tax.payer.street}"></div>
+                            <div class="col-xs-12 col-md-8">
+                                <span th:text="${receiptDetailsDTO.taxPayerStreetName}"></span>
+                                <span th:text="${receiptDetailsDTO.taxPayerStreetNumber}"></span>
+                                <span th:unless="${#strings.isEmpty(receiptDetailsDTO.taxPayerRoomNumber)}">
+                                    <span th:text="#{receipt.details.panel.tax.payer.street.room.number}"></span>
+                                    <span th:text="${receiptDetailsDTO.taxPayerRoomNumber}"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="taxTypes" th:unless="${#lists.isEmpty(receiptDetailsDTO.totalTaxDTOs)}">
+        <div class="panel panel-default">
+            <!-- Default panel contents -->
+            <div class="panel-heading">
+                <h3 class="panel-title" th:text="#{receipt.details.panel.total.taxes.title}"></h3>
+            </div>
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th th:text="#{receipt.details.table.total.taxes.type.name}"></th>
+                    <th th:text="#{receipt.details.table.total.taxes.type.amount}"></th>
+                    <th th:text="#{receipt.details.table.total.taxes.tax.amount}"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="totalTaxDTO : ${receiptDetailsDTO.totalTaxDTOs}">
+                    <td th:text="${totalTaxDTO.taxTypeName}"></td>
+                    <td th:text="${totalTaxDTO.taxTypeAmount}"></td>
+                    <td th:text="${totalTaxDTO.taxAmount}"></td>
+                </tr>
+                </tbody>
+
+            </table>
+        </div>
+
+    </div>
+
+    <div class="taxTypes" th:unless="${#lists.isEmpty(receiptDetailsDTO.receiptLineDTOs)}">
+        <div class="panel panel-default">
+            <!-- Default panel contents -->
+            <div class="panel-heading">
+                <h3 class="panel-title" th:text="#{receipt.details.panel.receipt.line.title}"></h3>
+            </div>
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th th:text="#{receipt.details.table.receipt.line.product.name}"></th>
+                    <th th:text="#{receipt.details.table.receipt.line.product.code}"></th>
+                    <th th:text="#{receipt.details.table.receipt.line.discount}"></th>
+                    <th th:text="#{receipt.details.table.receipt.line.net.unit.price}"></th>
+                    <th th:text="#{receipt.details.table.receipt.line.product.count}"></th>
+                    <th th:text="#{receipt.details.table.receipt.line.net.total.price}"></th>
+                    <th th:text="#{receipt.details.table.receipt.line.tax.type.amount}"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="receiptLineDTO : ${receiptDetailsDTO.receiptLineDTOs}">
+                    <td th:text="${receiptLineDTO.productName}"></td>
+                    <td th:text="${receiptLineDTO.productCode}"></td>
+                    <td th:text="${receiptLineDTO.discountAmount}"></td>
+                    <td th:text="${receiptLineDTO.netUnitPrice}"></td>
+                    <td th:text="${receiptLineDTO.productCount}"></td>
+                    <td th:text="${receiptLineDTO.netTotalPrice}"></td>
+                    <td th:text="${receiptLineDTO.taxTypeAmount}"></td>
+                </tr>
+                </tbody>
+
+            </table>
+        </div>
+
+    </div>
+
+</div>
+</body>
+</html>

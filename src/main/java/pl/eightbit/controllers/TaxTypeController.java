@@ -36,7 +36,7 @@ public class TaxTypeController {
     @RequestMapping(value = "/typy-podatkow", method = GET)
     public String loadFirstPageWithTaxTypeDTOs(final Model model) {
 
-        final Page<TaxTypeDTO> firstPage = systemDictionaryService.loadTaxTypeDTOs(DEFAULT_PAGE_SIZE, DEFAULT_PAGE_NUMBER);
+        final Page<TaxTypeDTO> firstPage = systemDictionaryService.loadTaxTypeDTOPage(DEFAULT_PAGE_SIZE, DEFAULT_PAGE_NUMBER);
 
         model.addAttribute(TOTAL_PAGES_NUMBER, firstPage.getTotalPages());
         model.addAttribute(TOTAL_ITEM_NUMBER, firstPage.getTotalElements());
@@ -63,7 +63,7 @@ public class TaxTypeController {
         final TaxTypeDTO taxTypeDTO = systemDictionaryService.findTaxTypeDTO(taxTypeID);
         model.addAttribute(TAX_TYPE_DTO, taxTypeDTO);
 
-        final Page<TaxTypeDTO> firstPage = systemDictionaryService.loadTaxTypeDTOs(DEFAULT_PAGE_SIZE, DEFAULT_PAGE_NUMBER);
+        final Page<TaxTypeDTO> firstPage = systemDictionaryService.loadTaxTypeDTOPage(DEFAULT_PAGE_SIZE, DEFAULT_PAGE_NUMBER);
         model.addAttribute(TOTAL_PAGES_NUMBER, firstPage.getTotalPages());
         model.addAttribute(TOTAL_ITEM_NUMBER, firstPage.getTotalElements());
         model.addAttribute(TAX_TYPE_DTOS, firstPage.getContent());

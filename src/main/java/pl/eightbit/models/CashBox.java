@@ -1,7 +1,7 @@
 package pl.eightbit.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,7 +11,12 @@ import java.io.Serializable;
 
 @Entity
 @Data
+@Builder
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CashBox implements Serializable {
+
+    public static final String ID = "id";
 
     @Id
     @GeneratedValue

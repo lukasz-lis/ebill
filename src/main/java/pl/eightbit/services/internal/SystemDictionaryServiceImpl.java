@@ -33,7 +33,7 @@ public class SystemDictionaryServiceImpl implements SystemDictionaryService {
     }
 
     @Override
-    public Page<TaxTypeDTO> loadTaxTypeDTOs(final int pageSize, final int pageNumber) {
+    public Page<TaxTypeDTO> loadTaxTypeDTOPage(final int pageSize, final int pageNumber) {
         final Page<TaxType> rawRecords = taxTypeRepository.findAll(new PageRequest(pageNumber, pageSize));
         return rawRecords.map(taxType -> modelMapper.map(taxType, TaxTypeDTO.class));
     }
@@ -61,7 +61,7 @@ public class SystemDictionaryServiceImpl implements SystemDictionaryService {
     }
 
     @Override
-    public Page<CurrencyTypeDTO> loadCurrencyTypeDTOs(final int pageSize, final int pageNumber) {
+    public Page<CurrencyTypeDTO> loadCurrencyTypeDTOPage(final int pageSize, final int pageNumber) {
         final Page<CurrencyType> rawRecords = currencyTypeRepository.findAll(new PageRequest(pageNumber, pageSize));
         return rawRecords.map(taxTypes -> modelMapper.map(taxTypes, CurrencyTypeDTO.class));
     }

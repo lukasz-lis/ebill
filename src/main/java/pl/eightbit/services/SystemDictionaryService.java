@@ -5,7 +5,7 @@ import pl.eightbit.dto.CurrencyTypeDTO;
 import pl.eightbit.dto.TaxTypeDTO;
 
 public interface SystemDictionaryService {
-    Page<TaxTypeDTO> loadTaxTypeDTOs(int pageSize, int pageNumber);
+    Page<TaxTypeDTO> loadTaxTypeDTOPage(int pageSize, int pageNumber);
 
     void saveTaxTypeDTO(TaxTypeDTO taxTypeDTO);
 
@@ -13,7 +13,7 @@ public interface SystemDictionaryService {
 
     TaxTypeDTO findTaxTypeDTO(long taxTypeID);
 
-    Page<CurrencyTypeDTO> loadCurrencyTypeDTOs(int pageSize, int pageNumber);
+    Page<CurrencyTypeDTO> loadCurrencyTypeDTOPage(int pageSize, int pageNumber);
 
     void saveCurrencyTypeDTO(CurrencyTypeDTO taxTypeDTO);
 
