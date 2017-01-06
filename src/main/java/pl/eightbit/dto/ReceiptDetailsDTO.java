@@ -34,7 +34,6 @@ public class ReceiptDetailsDTO {
     private String taxPayerStreetNumber;
     private String taxPayerRoomNumber;
 
-    @NotNull
     private String cashBoxUniqueNumber;
 
     @Size(min = 1)

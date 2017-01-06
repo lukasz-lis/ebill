@@ -6,6 +6,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import pl.eightbit.dao.MemberRepository;
 import pl.eightbit.dao.ReceiptRepository;
+import pl.eightbit.dao.TaxTypeRepository;
 import pl.eightbit.models.*;
 
 import java.math.BigDecimal;
@@ -16,10 +17,12 @@ public class DatabaseLoader implements CommandLineRunner {
 
     private final MemberRepository memberRepository;
     private final ReceiptRepository receiptRepository;
+    private final TaxTypeRepository taxTypeRepository;
 
     @Autowired
-    public DatabaseLoader(final MemberRepository memberRepository, final ReceiptRepository receiptRepository) {
+    public DatabaseLoader(final MemberRepository memberRepository, final ReceiptRepository receiptRepository, final TaxTypeRepository taxTypeRepository) {
         this.memberRepository = memberRepository;
+        this.taxTypeRepository = taxTypeRepository;
         this.receiptRepository = receiptRepository;
     }
 
@@ -42,11 +45,6 @@ public class DatabaseLoader implements CommandLineRunner {
         }
 
 
-        final CashBox cashBox = CashBox.builder() //
-                .cashBoxName("Kasa pierwsza") //
-                .uniqueCashBoxNumber("12345") //
-                .build();
-
         final TaxPayer taxPayer = TaxPayer.builder() //
                 .firstName("Lukasz") //
                 .fullName("Lukasz Lis") //
@@ -55,13 +53,9 @@ public class DatabaseLoader implements CommandLineRunner {
                 .regon("0320392039023") //
                 .streetName("Paderewskiego") //
                 .streetNumber("26") //
-                .roomNumber("64") //
+                .roomNumber("64")
                 .build();
 
-        final Discount discount = Discount.builder() //
-                .amount(new BigDecimal(20)) //
-                .name("Urodziny sklepu") //
-                .build();
 
         final TaxType taxType = TaxType.builder() //
                 .taxTypeAmount(new BigDecimal(23)) //
@@ -75,7 +69,7 @@ public class DatabaseLoader implements CommandLineRunner {
                 .productCode("12343") //
                 .productName("Pomidory luz.") //
                 .taxType(taxType) //
-                .discount(discount) //
+                .discountAmount(new BigDecimal(20.0)) //
                 .build();
 
         final TotalTax totalTax = TotalTax.builder() //
@@ -91,15 +85,12 @@ public class DatabaseLoader implements CommandLineRunner {
                 .totalTaxes(Lists.newArrayList(totalTax)) //
                 .totalNet(new BigDecimal(10)) //
                 .totalGross(new BigDecimal(20)) //
-                .cashBox(cashBox) //
+                .uniqueCashBoxNumber("1232321")
                 .build();
         totalTax.setReceipt(receipt);
         receiptLine.setReceipt(receipt);
 
-
-        final Receipt receiptById = receiptRepository.findOne(receipt.getId());
-        if (receiptById == null) {
-            receiptRepository.save(receipt);
-        }
+        taxTypeRepository.save(taxType);
+        receiptRepository.save(receipt);
     }
 }

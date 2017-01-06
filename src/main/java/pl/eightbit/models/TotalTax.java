@@ -30,7 +30,7 @@ public class TotalTax implements Serializable {
     private Receipt receipt;
 
     @Id
-    @ManyToOne(targetEntity = TaxType.class, cascade = CascadeType.PERSIST)
+    @ManyToOne(targetEntity = TaxType.class)
     @JoinColumn(name = TAX_TYPE_ID, referencedColumnName = ID)
     private TaxType taxType;
 

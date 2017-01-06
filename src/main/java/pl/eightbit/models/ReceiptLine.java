@@ -26,11 +26,9 @@ public class ReceiptLine implements Serializable {
     private int productCount;
     private BigDecimal netUnitPrice;
     private BigDecimal netTotalPrice;
+    private BigDecimal discountAmount;
 
-    @ManyToOne(targetEntity = Discount.class, cascade = CascadeType.PERSIST)
-    private Discount discount;
-
-    @ManyToOne(targetEntity = TaxType.class, cascade = CascadeType.PERSIST)
+    @ManyToOne(targetEntity = TaxType.class)
     private TaxType taxType;
 
     @Id

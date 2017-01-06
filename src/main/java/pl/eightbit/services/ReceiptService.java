@@ -10,4 +10,6 @@ public interface ReceiptService {
 
     ReceiptDetailsDTO findReceiptDetailsDTO(long receiptID);
 
+    long saveReceiptDetailsDTO(ReceiptDetailsDTO receiptDetailsDTO);
+
 }

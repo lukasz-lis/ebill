@@ -35,6 +35,8 @@ public class Receipt implements Serializable {
 
     private BigDecimal totalTaxAmount;
 
+    private String uniqueCashBoxNumber;
+
     @OneToMany(mappedBy = ReceiptLine.RECEIPT_FIELD_NAME, cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private List<ReceiptLine> receiptLines;
 
@@ -44,10 +46,6 @@ public class Receipt implements Serializable {
 
     @OneToMany(mappedBy = TotalTax.RECEIPT_FIELD_NAME, cascade = CascadeType.ALL)
     private List<TotalTax> totalTaxes;
-
-    @ManyToOne(targetEntity = CashBox.class, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = CASH_BOX_ID, referencedColumnName = CashBox.ID)
-    private CashBox cashBox;
 
 
     @Version

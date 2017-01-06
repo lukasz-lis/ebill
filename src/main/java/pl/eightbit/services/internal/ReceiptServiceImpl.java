@@ -6,13 +6,18 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 import pl.eightbit.dao.ReceiptRepository;
+import pl.eightbit.dao.TaxTypeRepository;
 import pl.eightbit.dto.ReceiptDTO;
 import pl.eightbit.dto.ReceiptDetailsDTO;
 import pl.eightbit.dto.ReceiptLineDTO;
 import pl.eightbit.dto.TotalTaxDTO;
 import pl.eightbit.models.Receipt;
+import pl.eightbit.models.ReceiptLine;
+import pl.eightbit.models.TaxType;
+import pl.eightbit.models.TotalTax;
 import pl.eightbit.services.ReceiptService;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,11 +25,13 @@ import java.util.stream.Collectors;
 public class ReceiptServiceImpl implements ReceiptService {
 
     private final ReceiptRepository receiptRepository;
+    private final TaxTypeRepository taxTypeRepository;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public ReceiptServiceImpl(final ReceiptRepository receiptRepository, final ModelMapper modelMapper) {
+    public ReceiptServiceImpl(final ReceiptRepository receiptRepository, final TaxTypeRepository cashBoxRepository, final ModelMapper modelMapper) {
         this.receiptRepository = receiptRepository;
+        this.taxTypeRepository = cashBoxRepository;
         this.modelMapper = modelMapper;
     }
 
@@ -57,4 +64,59 @@ public class ReceiptServiceImpl implements ReceiptService {
         receiptDetailsDTO.setTotalTaxDTOs(totalTaxDTOs);
         return receiptDetailsDTO;
     }
+
+    @Override
+    public long saveReceiptDetailsDTO(final ReceiptDetailsDTO receiptDetailsDTO) {
+
+
+        final List<ReceiptLine> receiptLines = receiptDetailsDTO.getReceiptLineDTOs().stream()
+                .map(this::mapReceiptLineDTOTOReceiptLine)
+                .collect(Collectors.toList());
+
+        final List<TotalTax> totalTaxes = receiptDetailsDTO.getTotalTaxDTOs().stream()
+                .map(this::mapTotalTaxDTOToTotalTax)
+                .collect(Collectors.toList());
+
+        final Receipt receipt = modelMapper.map(receiptDetailsDTO, Receipt.class);
+        receiptLines.forEach(receiptLine -> receiptLine.setReceipt(receipt));
+        receipt.setReceiptLines(receiptLines);
+        totalTaxes.forEach(totalTax -> totalTax.setReceipt(receipt));
+        receipt.setTotalTaxes(totalTaxes);
+
+        return receiptRepository.save(receipt).getId();
+    }
+
+    private ReceiptLine mapReceiptLineDTOTOReceiptLine(final ReceiptLineDTO receiptLineDTO) {
+        final ReceiptLine receiptLine = modelMapper.map(receiptLineDTO, ReceiptLine.class);
+
+        final BigDecimal taxTypeAmount = new BigDecimal(receiptLineDTO.getTaxTypeAmount());
+
+        final TaxType taxType = findTaxTypeOrCreateNew(taxTypeAmount);
+        receiptLine.setTaxType(taxType);
+
+        return receiptLine;
+    }
+
+    private TotalTax mapTotalTaxDTOToTotalTax(final TotalTaxDTO totalTaxDTO) {
+
+        final TotalTax totalTax = modelMapper.map(totalTaxDTO, TotalTax.class);
+
+        final BigDecimal taxTypeAmount = new BigDecimal(totalTaxDTO.getTaxTypeAmount());
+
+        final TaxType taxType = findTaxTypeOrCreateNew(taxTypeAmount);
+        totalTax.setTaxType(taxType);
+
+        return totalTax;
+    }
+
+    private TaxType findTaxTypeOrCreateNew(final BigDecimal taxTypeAmount) {
+        return taxTypeRepository.findByTaxTypeAmount(taxTypeAmount).orElseGet(() -> {
+            final TaxType taxType = TaxType.builder()
+                    .taxTypeAmount(taxTypeAmount)
+                    .build();
+            return taxTypeRepository.save(taxType);
+        });
+
+    }
+
 }
