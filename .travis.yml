@@ -6,4 +6,4 @@ deploy:
   app: ebill-web
   on: master
 jdk:
-  - openjdk7
+  - openjdk8
