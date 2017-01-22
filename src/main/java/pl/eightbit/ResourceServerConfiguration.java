@@ -12,7 +12,8 @@ class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
 
     @Override
     public void configure(final HttpSecurity http) throws Exception {
-        http.antMatcher("/api/*").authorizeRequests()
+        http.antMatcher("/api/**").authorizeRequests()
+                .antMatchers("/receipt-details/**").permitAll()
                 .anyRequest().authenticated()
                 .and().exceptionHandling().accessDeniedHandler(new OAuth2AccessDeniedHandler());
 

@@ -70,7 +70,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
-        http.antMatcher("/*").authorizeRequests()
+        http.antMatcher("/**").authorizeRequests()
                 .antMatchers("/built/**", "/node_modules/**", "/main.css", "/rejestracja").permitAll()
                 .antMatchers("/oauth/token").permitAll()
                 .anyRequest().authenticated()
