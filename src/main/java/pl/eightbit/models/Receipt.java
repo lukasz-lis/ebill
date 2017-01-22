@@ -19,6 +19,7 @@ public class Receipt implements Serializable {
 
     public static final String ID = "id";
     private static final String TAXPAYER_ID = "taxpayer_id";
+    private static final String MEMBER_ID = "member_id";
     private static final String CASH_BOX_ID = "cash_box_id";
 
     @Id
@@ -47,6 +48,9 @@ public class Receipt implements Serializable {
     @OneToMany(mappedBy = TotalTax.RECEIPT_FIELD_NAME, cascade = CascadeType.ALL)
     private List<TotalTax> totalTaxes;
 
+    @ManyToOne(targetEntity = Member.class)
+    @JoinColumn(name = MEMBER_ID, referencedColumnName = Member.ID)
+    private Member member;
 
     @Version
     @JsonIgnore

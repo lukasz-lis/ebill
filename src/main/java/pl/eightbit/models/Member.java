@@ -17,6 +17,8 @@ public class Member {
 
     public static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
 
+    public static final String ID = "id";
+
     @Id
     @GeneratedValue
     private long id;

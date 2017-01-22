@@ -87,6 +87,8 @@ public class DatabaseLoader implements CommandLineRunner {
                 .totalGross(new BigDecimal(20)) //
                 .uniqueCashBoxNumber("1232321")
                 .build();
+
+        receipt.setMember(member);
         totalTax.setReceipt(receipt);
         receiptLine.setReceipt(receipt);
 
