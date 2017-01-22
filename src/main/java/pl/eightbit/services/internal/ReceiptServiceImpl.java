@@ -11,14 +11,13 @@ import pl.eightbit.dto.ReceiptDTO;
 import pl.eightbit.dto.ReceiptDetailsDTO;
 import pl.eightbit.dto.ReceiptLineDTO;
 import pl.eightbit.dto.TotalTaxDTO;
-import pl.eightbit.models.Receipt;
-import pl.eightbit.models.ReceiptLine;
-import pl.eightbit.models.TaxType;
-import pl.eightbit.models.TotalTax;
+import pl.eightbit.models.*;
+import pl.eightbit.services.AccountService;
 import pl.eightbit.services.ReceiptService;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -27,17 +26,20 @@ public class ReceiptServiceImpl implements ReceiptService {
     private final ReceiptRepository receiptRepository;
     private final TaxTypeRepository taxTypeRepository;
     private final ModelMapper modelMapper;
+    private final AccountService accountService;
 
     @Autowired
-    public ReceiptServiceImpl(final ReceiptRepository receiptRepository, final TaxTypeRepository cashBoxRepository, final ModelMapper modelMapper) {
+    public ReceiptServiceImpl(final ReceiptRepository receiptRepository, final TaxTypeRepository cashBoxRepository, final AccountService accountService, final ModelMapper modelMapper) {
         this.receiptRepository = receiptRepository;
+        this.accountService = accountService;
         this.taxTypeRepository = cashBoxRepository;
         this.modelMapper = modelMapper;
     }
 
     @Override
     public Page<ReceiptDTO> loadReceiptDTOPage(final int pageSize, final int pageNumber) {
-        final Page<Receipt> rawRecords = receiptRepository.findAll(new PageRequest(pageNumber, pageSize));
+        final Optional<Member> loggedMember = accountService.getLoggedMember();
+        final Page<Receipt> rawRecords = receiptRepository.findByMember(loggedMember.orElseThrow(() -> new SecurityException("User not logged")), new PageRequest(pageNumber, pageSize));
         return rawRecords.map(receipt -> {
             final ReceiptDTO receiptDTO = modelMapper.map(receipt, ReceiptDTO.class);
             receiptDTO.setReceiptLinesCount(receipt.getReceiptLines().size());
@@ -82,6 +84,8 @@ public class ReceiptServiceImpl implements ReceiptService {
         receipt.setReceiptLines(receiptLines);
         totalTaxes.forEach(totalTax -> totalTax.setReceipt(receipt));
         receipt.setTotalTaxes(totalTaxes);
+
+        receipt.setMember(accountService.getLoggedMember().orElseThrow(() -> new SecurityException("User is not logged.")));
 
         return receiptRepository.save(receipt).getId();
     }

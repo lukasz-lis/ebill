@@ -75,7 +75,8 @@ public class AccountServiceImpl implements AccountService {
         context.setAuthentication(token);
     }
 
-    private Optional<Member> getLoggedMember() {
+    @Override
+    public Optional<Member> getLoggedMember() {
         final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         final Member member = memberRepository.findByUsername(auth.getName());
 
