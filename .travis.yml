@@ -5,3 +5,5 @@ deploy:
     secure: "01ff4ef9-a22c-4917-b89c-591fc9835629"
   app: ebill-web
   on: master
+jdk:
+  - openjdk7
