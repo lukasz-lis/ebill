@@ -3,5 +3,5 @@ deploy:
   provider: heroku
   api_key:
     secure: "01ff4ef9-a22c-4917-b89c-591fc9835629"
-   app: ebill-web
-   on: master
+  app: ebill-web
+  on: master
