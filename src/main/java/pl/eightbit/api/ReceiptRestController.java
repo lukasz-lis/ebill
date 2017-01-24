@@ -5,9 +5,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.eightbit.dao.CashMachineRepository;
 import pl.eightbit.dao.TokenRepository;
 import pl.eightbit.dto.ReceiptDTO;
 import pl.eightbit.dto.ReceiptDetailsDTO;
+import pl.eightbit.dto.ReceiptWithTokenDTO;
+import pl.eightbit.models.CashMachine;
 import pl.eightbit.models.Token;
 import pl.eightbit.services.ReceiptService;
 
@@ -25,6 +28,9 @@ public class ReceiptRestController {
     @Autowired
     private TokenRepository tokenRepository;
 
+    @Autowired
+    private CashMachineRepository cashMachineRepository;
+
     @RequestMapping(value = "/receipt/{pageNumber}/{pageSize}", method = RequestMethod.GET)
     public ResponseEntity<List<ReceiptDTO>> createReceipt(@PathVariable(value = "pageNumber") final int pageNumber, @PathVariable(value = "pageSize") final int pageSize) {
 
@@ -39,15 +45,25 @@ public class ReceiptRestController {
         return ResponseEntity.ok(receiptDetailsDTO);
     }
 
-    @RequestMapping(value = "/receipt-details/{userToken}", method = RequestMethod.POST)
-    public ResponseEntity<Long> createReceipt(@Valid @RequestBody final ReceiptDetailsDTO receiptDetailsDTO, @PathVariable(value = "userToken") final String userToken) {
+    @RequestMapping(value = "/receipt-details/", method = RequestMethod.POST)
+    public ResponseEntity<Long> createReceipt(@Valid @RequestBody final ReceiptWithTokenDTO receiptWithTokenDTO) {
 
-        final Optional<Token> token = tokenRepository.findByToken(userToken);
+        final Optional<Token> token = tokenRepository.findByToken(receiptWithTokenDTO.getUserToken());
         if (!token.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(-1L);
         }
 
-        final long receiptID = receiptService.saveReceiptDetailsDTO(receiptDetailsDTO);
+        final Optional<CashMachine> cashMachineNumber = cashMachineRepository.findByCashMachineNumber(receiptWithTokenDTO.getCashMachineNumber());
+        if (!cashMachineNumber.isPresent()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(-2L);
+        } else {
+            final CashMachine cashMachine = cashMachineNumber.get();
+            if (!cashMachine.isActive()) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(-3L);
+            }
+        }
+
+        final long receiptID = receiptService.saveReceiptDetailsDTO(receiptWithTokenDTO.getReceiptDetailsDTO());
         return ResponseEntity.ok(receiptID);
     }
 

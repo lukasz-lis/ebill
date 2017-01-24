@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+import pl.eightbit.dao.CashMachineRepository;
 import pl.eightbit.dao.MemberRepository;
 import pl.eightbit.dao.ReceiptRepository;
 import pl.eightbit.dao.TaxTypeRepository;
@@ -18,12 +19,14 @@ public class DatabaseLoader implements CommandLineRunner {
     private final MemberRepository memberRepository;
     private final ReceiptRepository receiptRepository;
     private final TaxTypeRepository taxTypeRepository;
+    private final CashMachineRepository cashMachineRepository;
 
     @Autowired
-    public DatabaseLoader(final MemberRepository memberRepository, final ReceiptRepository receiptRepository, final TaxTypeRepository taxTypeRepository) {
+    public DatabaseLoader(final MemberRepository memberRepository, final ReceiptRepository receiptRepository, final TaxTypeRepository taxTypeRepository, final CashMachineRepository cashMachineRepository) {
         this.memberRepository = memberRepository;
         this.taxTypeRepository = taxTypeRepository;
         this.receiptRepository = receiptRepository;
+        this.cashMachineRepository = cashMachineRepository;
     }
 
     @Override
@@ -87,6 +90,13 @@ public class DatabaseLoader implements CommandLineRunner {
                 .totalGross(new BigDecimal(20)) //
                 .uniqueCashBoxNumber("1232321")
                 .build();
+
+        final CashMachine cashMachine = CashMachine.builder()
+                .active(true)
+                .cashMachineNumber(12345L)
+                .build();
+
+        cashMachineRepository.save(cashMachine);
 
         receipt.setMember(member);
         totalTax.setReceipt(receipt);
