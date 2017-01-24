@@ -46,25 +46,25 @@ public class ReceiptRestController {
     }
 
     @RequestMapping(value = "/receipt-details/", method = RequestMethod.POST)
-    public ResponseEntity<Long> createReceipt(@Valid @RequestBody final ReceiptWithTokenDTO receiptWithTokenDTO) {
+    public ResponseEntity<Void> createReceipt(@Valid @RequestBody final ReceiptWithTokenDTO receiptWithTokenDTO) {
 
         final Optional<Token> token = tokenRepository.findByToken(receiptWithTokenDTO.getUserToken());
         if (!token.isPresent()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(-1L);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
         final Optional<CashMachine> cashMachineNumber = cashMachineRepository.findByCashMachineNumber(receiptWithTokenDTO.getCashMachineNumber());
         if (!cashMachineNumber.isPresent()) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(-2L);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         } else {
             final CashMachine cashMachine = cashMachineNumber.get();
             if (!cashMachine.isActive()) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(-3L);
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
             }
         }
 
-        final long receiptID = receiptService.saveReceiptDetailsDTO(receiptWithTokenDTO.getReceiptDetailsDTO());
-        return ResponseEntity.ok(receiptID);
+        receiptService.saveReceiptDetailsDTO(receiptWithTokenDTO.getReceiptDetailsDTO());
+        return ResponseEntity.ok().build();
     }
 
 
