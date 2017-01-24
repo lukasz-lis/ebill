@@ -44,11 +44,10 @@ public class ReceiptRestController {
 
         final Optional<Token> token = tokenRepository.findByToken(userToken);
         if (!token.isPresent()) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(-1L);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(-1L);
         }
 
         final long receiptID = receiptService.saveReceiptDetailsDTO(receiptDetailsDTO);
-        tokenRepository.delete(token.get().getId());
         return ResponseEntity.ok(receiptID);
     }
 

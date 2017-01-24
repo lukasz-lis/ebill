@@ -14,7 +14,7 @@ import java.util.List;
 @RequestMapping(value = "/api")
 public class TokenRestController {
 
-    private static final int TOKEN_AMOUNT = 10;
+    private static final int TOKEN_AMOUNT = 1;
 
     @Autowired
     private TokenService tokenService;
